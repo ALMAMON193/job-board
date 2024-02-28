@@ -1,12 +1,24 @@
 @extends('Font.Layouts.master')
 @section('main')
     <section class="section-5">
+
         <div class="container my-5">
             <div class="py-lg-2">&nbsp;</div>
             <div class="row d-flex justify-content-center">
                 <div class="col-md-5">
                     <div class="card shadow border-0 p-5">
                         <h1 class="h3">Register</h1>
+                        <!-- Display SweetAlert if there's a success message -->
+                        @if (session('success'))
+                            <script>
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Registration Successful!',
+                                    text: "{{ session('success') }}",
+                                    timer: 3000 // 3 seconds
+                                });
+                            </script>
+                        @endif
                         <form action="{{ route('account.process-registration') }}" method="post">
                             @csrf
                             <div class="mb-3">
@@ -47,7 +59,7 @@
 
                     </div>
                     <div class="mt-4 text-center">
-                        <p>Have an account? <a href="{{ route('login') }}">Login</a></p>
+                        <p>Have an account? <a href="{{ route('account.login') }}">Login</a></p>
                     </div>
                 </div>
             </div>

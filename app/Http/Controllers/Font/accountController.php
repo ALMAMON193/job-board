@@ -55,20 +55,35 @@ class accountController extends Controller
     }
     public function authenticate(Request $request)
     {
-        $credentials = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('account.profile')->withSuccess('You have successfully logged in!');
+        if ($validator->passes()) {
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                // Authentication successful, show success Toast message and then redirect
+                return redirect()->route('account.profile')->with('success', 'Logged in successfully!');
+            } else {
+                // Authentication failed, show error Toast message and redirect to login page
+                return redirect()->route('login')->with('error', 'Email & Password do not match');
+            }
+        } else {
+            // Validation failed, redirect back to the login page with errors and input data
+            return redirect()->route('account.profile')
+                ->withErrors($validator)
+                ->withInput($request->only('email'));
         }
-
-        return back()->withErrors(['email' => 'Your provided credentials do not match our records.'])->withInput($request->only('email'));
     }
+
+
     public function Profile()
     {
-        echo "this is profile";
+        return view('Font.account.profile');
+    }
+    public function Logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
