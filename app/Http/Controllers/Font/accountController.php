@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Font;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,7 +34,7 @@ class accountController extends Controller
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('login')->withSuccess('You have successfully registered & logged in!');
+        return redirect()->route('account.login')->withSuccess('You have successfully registered & logged in!');
     }
 
     public function Dashboard()
@@ -42,7 +43,7 @@ class accountController extends Controller
             return view('Font.account.dashboard');
         }
 
-        return redirect()->route('login')
+        return redirect()->route('account.login')
             ->withErrors([
                 'email' => 'Please login to access the dashboard.',
             ])->onlyInput('email');
@@ -66,7 +67,7 @@ class accountController extends Controller
                 return redirect()->route('account.profile')->with('success', 'Logged in successfully!');
             } else {
                 // Authentication failed, show error Toast message and redirect to login page
-                return redirect()->route('login')->with('error', 'Email & Password do not match');
+                return redirect()->route('account.login')->with('error', 'Email & Password do not match');
             }
         } else {
             // Validation failed, redirect back to the login page with errors and input data
@@ -79,11 +80,42 @@ class accountController extends Controller
 
     public function Profile()
     {
-        return view('Font.account.profile');
+        $id = Auth::user()->id;
+        $user = User::where('id', $id)->first();
+
+        return view('Font.account.profile', [
+            'user' => $user
+        ]);
     }
+    public function ProfileUpdate(Request $request)
+    {
+        $id = Auth::user()->id;
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($id),
+            ],
+            'mobile' => 'nullable|string|max:20',
+            'designation' => 'nullable|string|max:255',
+        ]);
+
+        $user = User::find($id);
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->mobile = $validatedData['mobile'];
+        $user->designation = $validatedData['designation'];
+        $user->save();
+
+        return redirect()->route('account.profile')->with('success', 'Profile updated successfully!');
+    }
+
+
     public function Logout()
     {
         Auth::logout();
-        return redirect()->route('login');
+        return redirect()->route('account.login');
     }
 }

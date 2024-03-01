@@ -1,7 +1,59 @@
 @extends('Font.Layouts.master')
+<style>
+    .colored-toast.swal2-icon-success {
+        background-color: #57e307 !important;
+    }
+
+    .colored-toast.swal2-icon-error {
+        background-color: #fc0000 !important;
+    }
+
+    .colored-toast.swal2-icon-warning {
+        background-color: #f5d60c !important;
+    }
+
+    .colored-toast.swal2-icon-info {
+        background-color: #02b7f3 !important;
+    }
+
+    .colored-toast.swal2-icon-question {
+        background-color: #87adbd !important;
+    }
+
+    .colored-toast .swal2-title {
+        color: white;
+    }
+
+    .colored-toast .swal2-close {
+        color: rgb(242, 243, 230);
+    }
+
+    .colored-toast .swal2-html-container {
+        color: rgb(250, 248, 241);
+    }
+</style>
 
 @section('main')
     <section class="section-5 bg-2">
+        @if (Session::has('success'))
+            <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast',
+                    },
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: '{{ Session::get('success') }}',
+                });
+            </script>
+        @endif
         <div class="container py-5">
             <div class="row">
                 <div class="col">
@@ -18,27 +70,40 @@
                 <div class="col-lg-9">
                     <div class="card border-0 shadow mb-4">
                         <div class="card-body  p-4">
-                            <h3 class="fs-4 mb-1 fw-bold">My Profile</h3>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Name*</label>
-                                <input type="text" placeholder="Enter Name" class="form-control" value="">
-                            </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Email*</label>
-                                <input type="text" placeholder="Enter Email" class="form-control">
-                            </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Designation*</label>
-                                <input type="text" placeholder="Designation" class="form-control">
-                            </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Mobile*</label>
-                                <input type="text" placeholder="Mobile" class="form-control">
-                            </div>
+                            <form action="{{ route('profile.update') }}" id="profileForm" name="profileForm" method="post">
+                                @csrf
+                                <h3 class="fs-4 mb-1 fw-bold">My Profile</h3>
+                                <div class="mb-4">
+                                    <label for="name" class="mb-2">Name*</label>
+                                    <input type="text" name="name" id="name" placeholder="Enter Name"
+                                        class="form-control" value="{{ $user->name }}">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="email" class="mb-2">Email*</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        value="{{ $user->email }}">
+
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="designation" class="mb-2">Designation*</label>
+                                    <input type="text" name="designation" id="designation" placeholder="Designation"
+                                        value="{{ $user->designation }}" class="form-control">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="mobile" class="mb-2">Mobile*</label>
+                                    <input type="text" name="mobile" id="mobile" placeholder="Mobile"
+                                        value="{{ $user->mobile }}" class="form-control">
+                                </div>
+                                <div class="card-footer p-4">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </form>
+
+
+
                         </div>
-                        <div class="card-footer  p-4">
-                            <button type="button" class="btn btn-primary">Update</button>
-                        </div>
+
                     </div>
 
                     @include('Font.account.changePassword')
@@ -46,27 +111,4 @@
             </div>
         </div>
     </section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title pb-0" id="exampleModalLabel">Change Profile Picture</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Profile Image</label>
-                            <input type="file" class="form-control" id="image" name="image">
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary mx-3">Update</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

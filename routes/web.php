@@ -19,7 +19,7 @@ use GuzzleHttp\Middleware;
 */
 
 Route::get('/', [HomeController::class, 'Home'])->name('home');
-Route::get('/dashboard', [accountController::class, 'Dashboard'])->name('dashboard');
+
 
 Route::group([], function () {
 
@@ -37,5 +37,7 @@ Route::group([], function () {
   Route::group(['middleware' => 'auth'], function () {
     Route::get('account/profile', [accountController::class, 'Profile'])->name('account.profile');
     Route::get('/account/logout', [accountController::class, 'Logout'])->name('account.logout');
+    Route::post('/account/profile/update', [accountController::class, 'ProfileUpdate'])->name('profile.update');
+    Route::post('/update-profile-picture', [accountController::class, 'ProfileUpdate'])->name('updateProfilePicture');
   });
 });
