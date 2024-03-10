@@ -37,23 +37,13 @@ class accountController extends Controller
         return redirect()->route('account.login')->withSuccess('You have successfully registered & logged in!');
     }
 
-    public function Dashboard()
-    {
-        if (Auth::check()) {
-            return view('Font.account.dashboard');
-        }
-
-        return redirect()->route('account.login')
-            ->withErrors([
-                'email' => 'Please login to access the dashboard.',
-            ])->onlyInput('email');
-    }
 
 
     public function Login()
     {
         return view('Font.account.login');
     }
+
     public function authenticate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -111,11 +101,28 @@ class accountController extends Controller
 
         return redirect()->route('account.profile')->with('success', 'Profile updated successfully!');
     }
+    public function ProfilePictureUpdate(Request $request)
+    {
 
+        $id = Auth::user()->id;
 
-    public function Logout()
+        $validatedData = $request->validate([
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $user = User::find($id);
+
+        if ($request->hasFile('profile_picture')) {
+            $imageData = file_get_contents($request->file('profile_picture'));
+            $user->profile_picture = base64_encode($imageData);
+            $user->save();
+        }
+
+        return redirect()->route('account.profile')->with('success', 'Profile picture updated successfully!');
+    }
+    public function logout()
     {
         Auth::logout();
-        return redirect()->route('account.login');
+        return redirect()->route('account.login')->with('success', 'Logout Successfully');
     }
 }

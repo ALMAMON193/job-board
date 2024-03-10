@@ -12,7 +12,7 @@
                         <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('find.jobs') }}">Find Jobs</a>
                     </li>
                 </ul>
                 @if (!Auth::check())
@@ -22,7 +22,7 @@
                         Account</a>
                 @endif
 
-                <a class="btn btn-primary" href="#" type="submit">Post a Job</a>
+                <a class="btn btn-primary" href="{{ route('Job.post') }}" type="submit">Post a Job</a>
             </div>
         </div>
     </nav>

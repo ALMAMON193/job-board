@@ -18,3 +18,12 @@
         <button type="button" class="btn btn-primary">Update</button>
     </div>
 </div>
+<script>
+    window.onload = function() {
+        // Assuming you have the old password stored in a variable named oldPassword
+        var oldPassword = "old_password"; // Replace this with your actual old password
+
+        // Fill in the old password field
+        document.getElementById("oldPassword").value = oldPassword;
+    };
+</script>

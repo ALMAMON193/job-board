@@ -30,13 +30,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" id="profilePictureForm" name="profilePictureForm"
+                    <form method="POST" name="profilePictureForm" id="profilePictureForm"
                         action="{{ route('updateProfilePicture') }}" enctype="multipart/form-data">
                         @csrf
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Profile Image</label>
-                            <input type="file" class="form-control" id="image" name="image">
+                        <div class="row mb-3">
+                            <label for="profile_picture" class="col-sm-2 col-form-label">Profile Image</label>
+                            <div class="col-sm-10">
+                                <input name="profile_picture" class="form-control" type="file" id="profile_picture"
+                                    accept="image/*">
+                            </div>
                         </div>
+                        <!-- end row -->
+
+
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary mx-3">Update</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -46,6 +52,7 @@
             </div>
         </div>
     </div>
+
 
     @include('Font.Layouts.footer')
 
@@ -99,32 +106,17 @@
         });
     </script>
     {{-- profile pic change --}}
-    <script>
-        $('#profilePictureForm').submit(function(event) {
-            event.preventDefault();
-
-            var formData = new FormData(this);
-
-            $.ajax({
-                url: '{{ route('updateProfilePicture') }}',
-                type: 'POST',
-                data: formData,
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    // Handle success, maybe display a success message or update UI
-                    console.log(response);
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    // Handle error, maybe display an error message
-                    console.error(xhr.responseText);
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
                 }
+                reader.readAsDataURL(e.target.files['0']);
             });
         });
     </script>
-
 
     <!-- toastr -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

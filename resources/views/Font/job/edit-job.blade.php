@@ -71,18 +71,20 @@
                     <div class="card border-0 shadow mb-4">
                         <div class="card-body card-form p-4">
                             <h3 class="fs-4 mb-1">Job Details</h3>
-                            <form action="{{ route('jobs.store') }}" method="POST">
+                            <form action="{{ route('jobs.update', $editJob->id) }}" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label for="title" class="form-label mb-2">Title<span
                                                 class="req">*</span></label>
+                                        <input type="title" name="title" class="form-control" id="title"
+                                            value="{{ $editData->title }}" required="">
 
-                                        <input type="title" class="form-control @error('title') is-invalid @enderror"
-                                            id="title" name="title" value="{{ old('title') }}">
-                                        @if ($errors->has('title'))
-                                            <span class="text-danger">{{ $errors->first('title') }}</span>
-                                        @endif
+                                        @error('name')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+
+
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <label for="category" class="form-label mb-2">Category<span
@@ -240,7 +242,7 @@
                                 </div>
 
                                 <div class="footer ">
-                                    <button type="submit" class="btn btn-primary">Save Job</button>
+                                    <button type="submit" class="btn btn-primary">update</button>
                                 </div>
                             </form>
                         </div>

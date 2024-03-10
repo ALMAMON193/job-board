@@ -15,18 +15,18 @@ return new class extends Migration
             $table->id(); // Primary key (unsignedBigInteger)
             $table->string('title');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('job_type_id')->constrained()->onDelete('cascade');
+            $table->foreignId('job_type_id')->constrained('job_types')->onDelete('cascade');
             // Other columns in the 'jobs' table
-            $table->integer('vacency');
-            $table->string('salary')->nullable();
-            $table->string('location');
+            $table->integer('vacancy')->nullable();
+            $table->integer('salary')->nullable();
+            $table->string('location')->nullable();
             $table->text('description')->nullable();
             $table->text('benefits')->nullable();
             $table->text('responsibility')->nullable();
             $table->text('qualifications')->nullable();
             $table->text('keywords')->nullable();
-            $table->string('experience');
-            $table->string('company_name');
+            $table->string('experience')->nullable();
+            $table->string('company_name')->nullable();
             $table->string('company_location')->nullable();
             $table->string('company_website')->nullable();
             $table->timestamps();
