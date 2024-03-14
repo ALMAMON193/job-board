@@ -69,7 +69,12 @@
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
                                 <a href="#" class="btn btn-secondary">Save</a>
-                                <a href="#" class="btn btn-primary">Apply</a>
+                                @if (Auth::check())
+                                    <a href="#" class="btn btn-primary">Apply</a>
+                                @else
+                                    <a href="javascript:void(0)" class="btn btn-primary disable"> login to Apply</a>
+                                @endif
+
                             </div>
                         </div>
                     </div>

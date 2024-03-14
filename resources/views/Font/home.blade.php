@@ -76,8 +76,8 @@
                                     <div class="col-md-4">
                                         <div class="card border-0 p-3 shadow mb-4">
                                             <div class="card-body">
-                                                <h3 class="border-0 fs-5 pb-2 mb-0">{{ $featuredJob->title }}</h3>
-                                                <p>{{ $featuredJob->description }}</p>
+                                                < class="border-0 fs-5 pb-2 mb-0">{{ $featuredJob->title }}</ <p>
+                                                {!! Str::limit($featuredJob->description, 100) !!}</p>
                                                 <div class="bg-light p-3 border">
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
@@ -125,7 +125,7 @@
                                         <div class="card border-0 p-3 shadow mb-4">
                                             <div class="card-body">
                                                 <h3 class="border-0 fs-5 pb-2 mb-0">{{ $latestJob->title }}</h3>
-                                                <p>{{ $latestJob->description }}</p>
+                                                <p>{!! Str::limit($latestJob->description, 100) !!}</p>
                                                 <div class="bg-light p-3 border">
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>

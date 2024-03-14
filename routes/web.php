@@ -52,6 +52,8 @@ Route::group([], function () {
     Route::get('job-delete/{id}', [jobController::class, 'delete'])->name('admin.jobs.delete');
   });
 
+  Route::get('/job-details/{id}', [jobController::class, 'JobDetails'])->name('job.details');
+
   //Auth Route
 
   Route::group(['middleware' => 'auth'], function () {
@@ -64,9 +66,9 @@ Route::group([], function () {
     Route::get('/edit-job', [jobController::class, 'editJob'])->name('jobs.edit');
     Route::post('/update-job', [jobController::class, 'UpdateJob'])->name('jobs.update');
     Route::get('/my-job', [jobController::class, 'MyJob'])->name('my.job');
-    Route::get('/find-job', [jobController::class, 'FindJobs'])->name('find.jobs');
+
     Route::get('/delete-job', [jobController::class, 'DeleteJob'])->name('jobs.delete');
-    Route::get('/job-details/{id}', [jobController::class, 'JobDetails'])->name('job.details');
+
     Route::get('/apply-job', [jobController::class, 'ApplyJob'])->name('apply.job');
     Route::post('/apply-job', [jobController::class, 'ApplyJobStore'])->name('apply.job.store');
   });
