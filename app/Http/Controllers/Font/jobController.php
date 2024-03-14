@@ -132,4 +132,20 @@ class jobController extends Controller
             'jobs' => $jobs,
         ]);
     }
+    public function JobDetails($id)
+
+    {
+        $job = job::where(['id' => $id, 'status' => 1])->with(['jobType', 'category'])->first();
+        if ($job == null) {
+            abort(404);
+        }
+        return view(
+            'Font.Job.job-details',
+
+            [
+                'jobs' => $job,
+            ]
+
+        );
+    }
 }
