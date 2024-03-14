@@ -42,7 +42,14 @@ Route::group([], function () {
     Route::get('user-edit/{id}', [userController::class, 'edit'])->name('admin.users.edit');
     Route::post('user-update/{id}', [userController::class, 'update'])->name('admin.users.update');
     Route::get('user-delete/{id}', [userController::class, 'delete'])->name('admin.users.delete');
-    Route::get('user-profile', [userController::class, 'profile'])->name('admin.users.profile');
+
+    //job related routes
+
+    Route::get('job-list', [jobController::class, 'index'])->name('admin.jobs.list');
+    Route::get('job-create', [jobController::class, 'create'])->name('admin.jobs.create');
+    Route::get('job-edit/{id}', [jobController::class, 'edit'])->name('admin.jobs.edit');
+    Route::post('job-update/{id}', [jobController::class, 'update'])->name('admin.jobs.update');
+    Route::get('job-delete/{id}', [jobController::class, 'delete'])->name('admin.jobs.delete');
   });
 
   //Auth Route

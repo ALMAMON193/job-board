@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('job_type_id')->constrained('job_types')->onDelete('cascade');
             // Other columns in the 'jobs' table
             $table->integer('vacancy')->nullable();
-            $table->integer('salary')->nullable();
+            $table->string('salary')->nullable();
             $table->string('location')->nullable();
             $table->text('description')->nullable();
             $table->text('benefits')->nullable();
